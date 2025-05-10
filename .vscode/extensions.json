@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "vadimcn.vscode-lldb",
+    "fill-labs.dependi",
+    "dustypomerleau.rust-syntax",
+    "swellaby.vscode-rust-test-adapter",
+    "rust-lang.rust-analyzer",
+    "hbenl.vscode-test-explorer"
+  ]
+}
