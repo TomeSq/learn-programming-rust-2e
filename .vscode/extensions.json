@@ -5,6 +5,7 @@
     "dustypomerleau.rust-syntax",
     "swellaby.vscode-rust-test-adapter",
     "rust-lang.rust-analyzer",
-    "hbenl.vscode-test-explorer"
+    "hbenl.vscode-test-explorer",
+    "tamasfe.even-better-toml"
   ]
 }
