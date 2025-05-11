@@ -1,4 +1,10 @@
 tab_spaces = 4
 max_width = 100
 chain_width = 160
-combine_control_expr=false
+combine_control_expr = false
+match_arm_blocks = true
+trailing_comma = "Always"
+empty_item_single_line = true
+indent_style = "Block"
+control_brace_style = "AlwaysNextLine"
+match_block_trailing_comma = true
