@@ -1,7 +1,9 @@
 {
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    //デフォルトでは型表示を表示しない。Ctrl-Altで表示する
+    "editor.inlayHints.enabled": "offUnlessPressed"
   },
   "rust-analyzer.checkOnSave": true,
   "rust-analyzer.check.command": "clippy"
