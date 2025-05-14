@@ -4,6 +4,7 @@
     "editor.defaultFormatter": "tamasfe.even-better-toml",
     "editor.formatOnSave": true
   },
+  //===================
   // rust設定
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
@@ -12,5 +13,14 @@
     "editor.inlayHints.enabled": "offUnlessPressed"
   },
   "rust-analyzer.checkOnSave": true,
-  "rust-analyzer.check.command": "clippy"
+  "rust-analyzer.check.command": "clippy",
+
+  //===================
+  // Github Copilot
+  //コミットメッセージ
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github\\instructions\\commit-message-instructions.md"
+    }
+  ]
 }
