@@ -3,6 +3,7 @@ use image::png::PNGEncoder;
 use num::Complex;
 use std::env;
 use std::fs::File;
+use std::str::FromStr;
 
 /// "limit"を繰り返しの回数の上限として、"C"がマンデルブロ集合に属するかを判定する。
 /// "c"がマンデルブロ集合に含まれなかったら、'Some(i)'を返す。
@@ -63,15 +64,6 @@ fn main() {
     write_image(&args[1], &pixels, bounds).expect("error writing PNG file");
 }
 
-fn complex_square_add_loop(c: Complex<f64>) {
-    let mut z = Complex { re: 0.0, im: 0.0 };
-    loop {
-        z = z * z + c;
-    }
-}
-
-use std::str::FromStr;
-
 /// 文字列"s"は座標系のペア`"400×600"`、`"1.0,0.5"`など
 /// "s"は<left><seq><right>の形式である必要がある
 /// <seq>は"separator"引数で与えられる文字で、
@@ -102,10 +94,7 @@ fn test_parse_pair() {
 }
 
 fn parse_complex(s: &str) -> Option<Complex<f64>> {
-    match parse_pair(s, ',') {
-        Some((re, im)) => Some(Complex { re, im }),
-        None => None,
-    }
+    parse_pair(s, ',').map(|(re, im)| Complex { re, im })
 }
 
 #[test]
