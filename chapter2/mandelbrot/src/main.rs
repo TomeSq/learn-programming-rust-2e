@@ -1,6 +1,7 @@
 use image::ColorType;
 use image::png::PNGEncoder;
 use num::Complex;
+use std::env;
 use std::fs::File;
 
 /// "limit"を繰り返しの回数の上限として、"C"がマンデルブロ集合に属するかを判定する。
@@ -20,7 +21,24 @@ fn escape_time(c: Complex<f64>, limit: usize) -> Option<usize> {
 }
 
 fn main() {
-    println!("Hello, world!");
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() != 5 {
+        eprintln!("Usage: {} FILE PIXEL UPPERLEFT LOWERRIGHT", args[0]);
+        eprintln!("Example: {} mandel.png 100x750 -1.20,0.35 -1,0.20", args[0]);
+        std::process::exit(1);
+    }
+
+    let bounds = parse_pair(&args[2], 'x').expect("error parsing image dimensions");
+    let upper_left = parse_complex(&args[3]).expect("error parsing upper left point");
+    let lower_right = parse_complex(&args[4]).expect("error parsing lower right point");
+
+    //長さbounds.0 * bounds.1でベクタを作り、0で初期化する
+    let mut pixels = vec![0; bounds.0 * bounds.1];
+
+    render(&mut pixels, bounds, upper_left, lower_right);
+
+    write_image(&args[1], &pixels, bounds).expect("error writing PNG file");
 }
 
 fn complex_square_add_loop(c: Complex<f64>) {
