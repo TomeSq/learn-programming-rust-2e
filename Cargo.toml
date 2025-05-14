@@ -1,3 +1,8 @@
 [workspace]
-members = ["chapter2/actix-gcd", "chapter2/hello_world", "chapter2/mandelbrot"]
+members = [
+    "chapter2/actix-gcd",
+    "chapter2/hello_world",
+    "chapter2/mandelbrot",
+    "chapter2/quickreplace",
+]
 resolver = "2"
