@@ -1,4 +1,7 @@
+use image::ColorType;
+use image::png::PNGEncoder;
 use num::Complex;
+use std::fs::File;
 
 /// "limit"を繰り返しの回数の上限として、"C"がマンデルブロ集合に属するかを判定する。
 /// "c"がマンデルブロ集合に含まれなかったら、'Some(i)'を返す。
@@ -130,4 +133,54 @@ fn test_pixel_to_point() {
             im: -0.75
         }
     );
+}
+
+/// マンデルブロ集合の画像をバイト配列にレンダリングする
+///
+/// # 引数
+/// * `pixels` - レンダリング結果を格納するバイト配列。各バイトは1ピクセルを表す
+/// * `bounds` - 画像の寸法 (幅, 高さ) を表すタプル
+/// * `upper_left` - 表示する複素平面上の左上隅の座標
+/// * `lower_right` - 表示する複素平面上の右下隅の座標
+///
+/// # 注意
+/// * `pixels`の長さは`bounds.0 * bounds.1`と同じである必要がある
+/// * 各ピクセル値は0～255の範囲で、0は集合に属する点（黒）、255に近いほど
+///   集合から早く発散する点（白に近い）を表す
+fn render(
+    pixels: &mut [u8],
+    bounds: (usize, usize),
+    upper_left: Complex<f64>,
+    lower_right: Complex<f64>,
+) {
+    assert!(pixels.len() == bounds.0 * bounds.1);
+
+    // 画像の各行を走査
+    for now in 0..bounds.1 {
+        // 各行の各列を走査
+        for column in 0..bounds.0 {
+            // ピクセル座標を複素平面上の点に変換
+            let point = pixel_to_point(bounds, (column, now), upper_left, lower_right);
+
+            // 対応する複素数がマンデルブロ集合に属するかを判定し、適切な色を設定
+            // 集合に属する点は黒(0)、属さない点は発散の速さに応じたグレースケール値
+            pixels[now * bounds.0 + column] = match escape_time(point, 255) {
+                None => 0,
+                Some(count) => 255 - count as u8,
+            };
+        }
+    }
+}
+
+fn write_image(
+    filename: &str,
+    pixels: &[u8],
+    bounds: (usize, usize),
+) -> Result<(), std::io::Error> {
+    let output = File::create(filename)?;
+
+    let encoder = PNGEncoder::new(output);
+    encoder.encode(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+
+    Ok(())
 }
