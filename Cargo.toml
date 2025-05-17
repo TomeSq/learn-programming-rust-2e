@@ -3,6 +3,6 @@ members = [
     "chapter02/actix-gcd",
     "chapter02/hello_world",
     "chapter02/mandelbrot",
-    "chapter02/quickreplace",
+    "chapter02/quickreplace", "chapter05/fragments",
 ]
 resolver = "2"
